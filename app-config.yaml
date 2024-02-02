@@ -1,9 +1,10 @@
 app:
   title: Scaffolded Backstage App
-  baseUrl: http://localhost:3000
+  baseUrl: ${BACKSTAGE_URL}:3000 # Add port 3000 for running locally
 
 organization:
   name: My Company
+  url: ${GITHUB_ORG_URL}
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -12,7 +13,7 @@ backend:
   auth:
     keys:
       - secret: ${BACKEND_SECRET}
-  baseUrl: http://localhost:7007
+  baseUrl: ${BACKSTAGE_URL}:7007 # Add port 7007 for running locally
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
@@ -22,7 +23,7 @@ backend:
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
-    origin: http://localhost:3000
+    origin: ${BACKSTAGE_URL}:3000 # Add port 3000 for running locally
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # This is for local development only, it is not recommended to use this in production
@@ -64,10 +65,10 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  environment: development
+  environment: production
   providers:
     github:
-      development:
+      production:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
@@ -97,6 +98,13 @@ catalog:
       rules:
         - allow: [User, Group]
 
+    - type: url
+      target: https://github.com/<org/templates repository>
+      rules:
+        - allow:
+            - Location
+            - Template
+
     ## Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
@@ -112,5 +120,5 @@ permission:
   rbac:
     admin:
       users:
-        - name: user:default/guest # For development/testing only
-        - name: group:default/guests # For development/testing only
+        - name: ${RBAC_ADMIN_USERNAME}
+        - name: ${RBAC_ADMIN_GROUP}
