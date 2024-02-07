@@ -38,22 +38,26 @@ import { githubAuthApiRef } from '@backstage/core-plugin-api';
 import { SignInPage } from '@backstage/core-components';
 
 import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { ProxiedSignInPage } from '@backstage/core-components';
 
 const app = createApp({
   apis,
+  // components: {
+  //   SignInPage: props => (
+  //     <SignInPage
+  //       {...props}
+  //       auto
+  //       provider={{
+  //         id: 'github-auth-provider',
+  //         title: 'GitHub',
+  //         message: 'Sign in using GitHub',
+  //         apiRef: githubAuthApiRef,
+  //       }}
+  //     />
+  //   ),
+  // },
   components: {
-    SignInPage: props => (
-      <SignInPage
-        {...props}
-        auto
-        provider={{
-          id: 'github-auth-provider',
-          title: 'GitHub',
-          message: 'Sign in using GitHub',
-          apiRef: githubAuthApiRef,
-        }}
-      />
-    ),
+    SignInPage: (props) => <ProxiedSignInPage {...props} provider="oauth2Proxy" />,
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
