@@ -58,6 +58,8 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
+import { EntityJiraDashboardContent, isJiraDashboardAvailable } from '@axis-backstage/plugin-jira-dashboard';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -214,6 +216,13 @@ const websiteEntityPage = (
 
 const defaultEntityPage = (
   <EntityLayout>
+    <EntityLayout.Route
+      if={isJiraDashboardAvailable}
+      path="/jira-dashboard"
+      title="Jira Dashboard"
+    >
+      <EntityJiraDashboardContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
